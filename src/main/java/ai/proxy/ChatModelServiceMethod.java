@@ -8,6 +8,7 @@ import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.core.annotation.RepeatableContainers;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
@@ -77,9 +78,7 @@ class ChatModelServiceMethod {
         if (StringUtils.hasText(system))
             ccb = ccb.system(spec -> spec.text(system).params(systemParams));
 
-        var collection = method.getReturnType()
-                .isAssignableFrom(Collection.class);
-        System.out.println("is a collection? " + collection);
+
         return ccb.call().entity(method.getReturnType());
     }
 
