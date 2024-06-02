@@ -13,13 +13,14 @@ import java.lang.reflect.Method;
  */
 public class ChatModelServiceProxyFactory {
 
-    //    private final StringValueResolver embeddedValueResolver;
     private final ChatModel chatModel;
 
-    // todo make this private and replace it with a builder a la HttpServiceProxyFactory
-    public ChatModelServiceProxyFactory(ChatModel model) {
-//        this.embeddedValueResolver = embeddedValueResolver;
+    private ChatModelServiceProxyFactory(ChatModel model) {
         this.chatModel = model;
+    }
+
+    public static ChatModelServiceProxyFactory create (ChatModel model) {
+        return new ChatModelServiceProxyFactory(model) ;
     }
 
     private boolean isExchangeMethod(Method method) {

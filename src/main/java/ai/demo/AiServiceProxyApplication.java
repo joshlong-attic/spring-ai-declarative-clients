@@ -21,7 +21,7 @@ public class AiServiceProxyApplication {
     @Bean
     ApplicationRunner demo(ChatModel chatModel ) {
         return args -> {
-            var ai = new ChatModelServiceProxyFactory(chatModel);
+            var ai = ChatModelServiceProxyFactory.create(chatModel);
             var client = (ImdbClient) ai.createClient(ImdbClient.class);
             var actorsWhoAppearedIn = client.findActorsWhoAppearedIn("Star Wars");
             for (var a : actorsWhoAppearedIn.actors())
