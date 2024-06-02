@@ -3,9 +3,7 @@ package ai.proxy;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.core.MethodIntrospector;
-import org.springframework.core.annotation.*;
-import org.springframework.lang.Nullable;
-import org.springframework.util.StringValueResolver;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
 
@@ -15,12 +13,12 @@ import java.lang.reflect.Method;
  */
 public class ChatModelServiceProxyFactory {
 
-    private final StringValueResolver embeddedValueResolver;
+    //    private final StringValueResolver embeddedValueResolver;
     private final ChatModel chatModel;
 
     // todo make this private and replace it with a builder a la HttpServiceProxyFactory
-    public ChatModelServiceProxyFactory(ChatModel model, @Nullable StringValueResolver embeddedValueResolver) {
-        this.embeddedValueResolver = embeddedValueResolver;
+    public ChatModelServiceProxyFactory(ChatModel model) {
+//        this.embeddedValueResolver = embeddedValueResolver;
         this.chatModel = model;
     }
 

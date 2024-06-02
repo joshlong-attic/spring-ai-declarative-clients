@@ -9,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Collection;
 import java.util.List;
 
 @SpringBootApplication
@@ -22,7 +21,7 @@ public class AiServiceProxyApplication {
     @Bean
     ApplicationRunner demo(ChatModel chatModel ) {
         return args -> {
-            var ai = new ChatModelServiceProxyFactory( chatModel, null);
+            var ai = new ChatModelServiceProxyFactory(chatModel);
             var client = (ImdbClient) ai.createClient(ImdbClient.class);
             var actorsWhoAppearedIn = client.findActorsWhoAppearedIn("Star Wars");
             for (var a : actorsWhoAppearedIn.actors())
