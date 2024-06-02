@@ -2,6 +2,9 @@ package ai.proxy;
 
 import java.lang.annotation.*;
 
+/**
+ * @author Josh Long
+ */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
