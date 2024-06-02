@@ -1,11 +1,15 @@
 package ai.proxy;
 
+import org.springframework.ai.chat.client.RequestResponseAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -13,14 +17,49 @@ import java.lang.reflect.Method;
  */
 public class ChatModelServiceProxyFactory {
 
-    private final ChatModel chatModel;
 
-    private ChatModelServiceProxyFactory(ChatModel model) {
-        this.chatModel = model;
+    public static class Builder {
+
+        private final ChatModel chatModel;
+
+        private final List<RequestResponseAdvisor> advisors = new ArrayList<>();
+
+        private final List<String> functionNames = new ArrayList<>();
+
+        private Builder(ChatModel chatModel) {
+            this.chatModel = chatModel;
+        }
+
+        public Builder advisors(RequestResponseAdvisor... questionAnswerAdvisor) {
+            this.advisors.addAll(Arrays.asList(questionAnswerAdvisor));
+            return this;
+        }
+
+        public Builder functions(String... functionNames) {
+            this.functionNames.addAll(Arrays.asList(functionNames));
+            return this;
+        }
+
+
+        public ChatModelServiceProxyFactory build() {
+            return new ChatModelServiceProxyFactory(this.chatModel, this.advisors, this.functionNames);
+        }
     }
 
-    public static ChatModelServiceProxyFactory create (ChatModel model) {
-        return new ChatModelServiceProxyFactory(model) ;
+
+    private final ChatModel chatModel;
+    private final List<RequestResponseAdvisor> advisors = new ArrayList<>();
+    private final List<String> functionNames = new ArrayList<>();
+
+    private ChatModelServiceProxyFactory(ChatModel model, List<RequestResponseAdvisor> advisors,
+                                         List<String> functionNames) {
+        this.chatModel = model;
+        this.advisors.addAll(advisors);
+        this.functionNames.addAll(functionNames);
+    }
+
+    public static Builder create(ChatModel model) {
+        return new Builder(model);
     }
 
     private boolean isExchangeMethod(Method method) {
