@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class ChatModelServiceProxyFactory {
 
-
     public static class Builder {
 
         private final ChatModel chatModel;
